@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOOOT - YouTube Video Quiz</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            background-color: #ffff00;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 20px;
+        }
+
+        #video-container {
+            margin-bottom: 25px;
+            display: none; /* Initially hide the video */
+        }
+
+        #play-button {
+            margin-top: 20px;
+            margin-bottom: 50px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            background-color: black;
+            border-radius: 50%;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        #quiz {
+            display: flex;
+            justify-content: center;
+        }
+
+        .quiz-option {
+            margin: 0 15px;
+            width: 100px;
+            height: 100px;
+            background-color: black;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .quiz-option:hover {
+            background-color: #555;
+        }
+    </style>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+
+    <div>
+        <h1>SHOOOT</h1>
+        <div id="video-container"></div>
+
+        <!-- Play Button -->
+        <div id="play-button" class="quiz-option">
+            PLAY
+        </div>
+
+        <!-- Quiz Options -->
+        <div id="quiz" style="display: none;">
+            <div class="quiz-option" data-answer="1">Brian May</div>
+            <div class="quiz-option" data-answer="2">Jeff Beck</div>
+            <div class="quiz-option" data-answer="3">Jimi Hendrix</div>
+        </div>
+    </div>
+
+    <script>
+        let player;
+        let videoPlaying = false;
+        let videoPaused = false;
+
+        // Load YouTube Iframe API
+        function onYouTubeIframeAPIReady() {
+            // Create YouTube player but don't display it until PLAY button is clicked
+            player = new YT.Player('video-container', {
+                height: '360',
+                width: '640',
+                videoId: 'g14m_uBxHhY',
+                playerVars: {
+                    controls: 1,
+                    rel: 0,
+                    showinfo: 0,
+                    autoplay: 0, // Disable autoplay initially
+                    mute: 1, // Start muted to avoid autoplay restrictions
+                }
+            });
+        }
+
+        // Play button click handler
+        document.getElementById('play-button').addEventListener('click', function () {
+            // Hide the PLAY button and show the video
+            document.getElementById('play-button').style.display = 'none'; // Hide PLAY button
+            document.getElementById('video-container').style.display = 'block'; // Show video container
+
+            player.playVideo(); // Play video
+            player.unMute(); // Unmute video
+            videoPlaying = true;
+
+            // Automatically pause the video at 2 seconds and 25 frames, then show quiz
+            setTimeout(function () {
+                player.pauseVideo();
+                videoPaused = true;
+                document.getElementById('quiz').style.display = 'flex'; // Show quiz after pause
+            }, 2833); // Pause at 2 seconds and 25 frames (2833 milliseconds)
+        });
+
+        // Handle the quiz answer selection
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function () {
+                if (videoPaused) {
+                    player.playVideo(); // Resume video from pause
+                    videoPaused = false;
+                    document.getElementById('quiz').style.display = 'none'; // Hide quiz after answer
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
