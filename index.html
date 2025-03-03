@@ -32,8 +32,9 @@
         }
 
         #video-container {
+            display: none; /* Initially hidden */
             margin-bottom: 40px;
-            width: 60%; /* Default width for larger screens */
+            width: 100%; /* Set width to 100% to adapt to different screens */
             max-width: 640px; /* Set a max width for video */
             height: auto;
         }
@@ -43,6 +44,7 @@
             justify-content: center;
             gap: 20px; /* Space between options */
             margin-top: 30px;
+            display: none; /* Hide quiz initially */
         }
 
         #quiz-answers {
@@ -100,7 +102,7 @@
 
             #video-container {
                 width: 80%; /* Adjust video container width */
-                max-width: 90%; /* Ensure the video container doesn't overflow */
+                max-width: 100%; /* Ensure the video container doesn't overflow */
             }
 
             #quiz-answers li {
@@ -158,7 +160,7 @@
         <div id="video-container"></div>
 
         <!-- Quiz Section -->
-        <div id="quiz" style="display: none;">
+        <div id="quiz">
             <ul id="quiz-answers">
                 <li data-answer="1">Brian May</li>
                 <li data-answer="2">Jeff Beck</li>
